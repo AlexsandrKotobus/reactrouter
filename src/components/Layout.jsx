@@ -1,14 +1,18 @@
 import React from 'react';
-import {Link, Outlet} from "react-router-dom"
+import {Outlet} from "react-router-dom"
+import CustomLink from './CustomLink';
+// const setActive = ({isActive})=>isActive? 'active-link' : '';
+
+
 
 const Layout = () => {
     return (
         <>
         <header>
-            <Link to="/">Home</Link>
-            <Link to="/posts">Blog</Link>
-            <Link to="/about">About</Link>
-            <Link to="/cont">Contact</Link>
+            <CustomLink to="/"      >Home</CustomLink>
+            <CustomLink to="/posts" >Blog</CustomLink>
+            <CustomLink to="/about" >About</CustomLink>
+            <CustomLink to="/cont"  >Contact</CustomLink>
     </header>
     <main className='container'>
         <Outlet />
@@ -22,3 +26,4 @@ const Layout = () => {
 }
 
 export default Layout;
+
