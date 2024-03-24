@@ -1,6 +1,6 @@
 import * as React from "react";
 // import * as ReactDOM from "react-dom/client";
-import {Routes, Route, Link } from "react-router-dom";
+import {Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 
 import Homepage from "./pages/Homepage";
@@ -10,9 +10,12 @@ import Notfoundpage from "./pages/Notfoundpage";
 import Singlepage from "./pages/Singlepage";
 import Creativepost from "./pages/Creativepost";
 import Editpost from "./pages/Editpost";
-// import Page from "./pages/Page";
+import LoginPage from "./pages/Loginpage";
 
 import Layout from "./components/Layout";
+import Newpage from "./pages/Newpage";
+import RequireAuth from "./hoc/RequireAuth";
+import { AuthProvider } from "./hoc/AuthProvider";
 
 
 function App() {
@@ -28,18 +31,31 @@ function App() {
     <div>
       <h1>Get start with React-Router 6</h1>
     </div>
-    <Routes>
-      <Route path="/" element ={<Layout/>}>
-        <Route index element={<Homepage/>}/>
-        <Route path="about" element={<Aboutpage/>}/>
-        <Route path="posts" element={<Blogpage name={'with props eeeeeeeeeee'} />}/>
-        <Route path="posts/:id" element={<Singlepage/>}/>
-        <Route path="posts/:id/edit" element={<Editpost/>}/>
-        <Route path="posts/new" element={<Creativepost/>}/>
-        <Route path="*" element={<Notfoundpage/>}/>
-      </Route>
-    </Routes>
-    <a href='/page'>ссылка на page = перезагрузка</a>
+    <AuthProvider>
+      <Routes>
+          <Route path="/" element ={<Layout/>}>
+            <Route index element={<Homepage/>}/>
+            <Route path="about" element={<Aboutpage/>}/>
+            <Route path="about-us" element={<Navigate to="/about" replace/>}/>
+            <Route path="posts" element={<Blogpage name={'with props eeeeeeeeeee'} />}/>
+            <Route path="posts/:id" element={<Singlepage/>}/>
+            <Route path="posts/:title" element={<Newpage/>}/>
+            <Route path="posts/:id/edit" element={<Editpost/>}/>
+            
+            <Route path="posts/new" element={
+              // <RequireAuth>
+                <Creativepost />
+              // </RequireAuth>
+              }/>
+
+            <Route path="login" element={<LoginPage/>}/>
+            <Route path="*" element={<Notfoundpage/>}/>
+          </Route>
+        </Routes>
+
+    </AuthProvider>
+    
+    {/* <a href='/page'>ссылка на page = перезагрузка</a> */}
     </>
   )
 }
