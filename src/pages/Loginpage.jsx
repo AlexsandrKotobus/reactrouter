@@ -10,29 +10,35 @@ const LoginPage = () => {
     // console.log('location', location.state)
     // location.state?.from?.pathname || '/';
     // '/posts/new'
-    const fromPage =  '/';
-    // const fromPage = location.state?.from?.pathname || '/';
-console.log('location.state?.from?.pathname',location.state?.from?.pathname)
+    // const fromPage =  '/';
+    const fromPage = (location.state?.from?.pathname)|| '/';
+    // console.log('location.state?.from?.pathname ', location.state?.from?.pathname);
+    // const fromPage = 
+// console.log(fromPage)
 const handleSubmit = (event)=> {
     event.preventDefault();
     const form = event.target; //получаем форму
     const user = form.username.value;  //инфа о пользователе, через точку нам доступно то имя, что ввел пользователь
+    console.log('fromPage')
+    console.log(fromPage)
     // name предоставляет доступ к ноде username - <input name="username"/>
     //и вызываем функцию signin, которая принимает 2 вещи = пользователя=user, и колбек-функцию 
     //для navigate отпределяем, куда я хочу поехать - это определено в fromPage
     //{replace: true} - чтоб по кнопке назад мы не вернулись на страницу авторизации
+    // console.log("navigate(fromPage)  ", navigate(fromPage) )
     signin(user, () => navigate(fromPage, {replace: true}));
+    
 }
 
     return (
         <div>
             <p>Login page</p>
-            
             <form onSubmit ={handleSubmit}>
+            {/* <form > */}
                 <label>
                     Name: <input name="username"/>
                 </label>
-                <button type='submit'>Login</button>
+                <button type="submit">Login</button>
             </form>
         </div>
     );

@@ -3,8 +3,8 @@
 }
 
 :root {
-  --color-bg: #2C2C32;
-  --color-active: #0f7dc6;
+  /* --color-bg: #41417d;
+  --color-active: #0f7dc6; */
 }
 
 body {
@@ -17,7 +17,8 @@ body {
 }
 
 header {
-  background-color: var(--color-bg);
+  /* background-color: var(--color-bg); */
+  background-color: rgb(76, 59, 100); 
   padding: 2rem 0;
   text-align: center;
 }

@@ -14,15 +14,15 @@ import LoginPage from "./pages/Loginpage";
 
 import Layout from "./components/Layout";
 import Newpage from "./pages/Newpage";
-import RequireAuth from "./hoc/RequireAuth";
+import {RequireAuth} from "./hoc/RequireAuth";
 import { AuthProvider } from "./hoc/AuthProvider";
 
-
+// перезагрузка
 function App() {
-  window.addEventListener('beforeunload', (event) => {
-    event.preventDefault();
-    event.returnValue = '';
-  });
+//   window.addEventListener('beforeunload', (event) => {
+//     event.preventDefault();
+//     event.returnValue = '';
+//   });
 
 
   
@@ -41,11 +41,11 @@ function App() {
             <Route path="posts/:id" element={<Singlepage/>}/>
             <Route path="posts/:title" element={<Newpage/>}/>
             <Route path="posts/:id/edit" element={<Editpost/>}/>
-            
+            {/* НЕ РАБОТАЕТ! */}
             <Route path="posts/new" element={
-              // <RequireAuth>
+              <RequireAuth>
                 <Creativepost />
-              // </RequireAuth>
+              </RequireAuth> 
               }/>
 
             <Route path="login" element={<LoginPage/>}/>

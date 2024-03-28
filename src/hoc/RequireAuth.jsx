@@ -9,13 +9,14 @@ const RequireAuth = ({children}) => {
     const location = useLocation();
     // информация об авторизации
     
-    const {user} = useAuth;
+    const {user} = useAuth();
     // console.log("!!! ", Navigate.location)
 // проверка - естьавторизация или нет. Если нет, делаем return компонента Navigate
     if(!user){
-        return <Navigate to='/login' state={{from: location}}/>;
+        console.log("не залогинен ")
+        return <Navigate to='/login' state={{from: location}} />;
     }
     return children;
 }
 
-export default RequireAuth;
+export {RequireAuth};

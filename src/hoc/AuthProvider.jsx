@@ -22,6 +22,7 @@ const value = {user, signin, signout}
 //
     return <AuthContext.Provider value={value}>
         {children}
+        console.log(children);
     </AuthContext.Provider>;
 }
 
