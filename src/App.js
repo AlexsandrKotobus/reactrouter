@@ -31,6 +31,7 @@ function App() {
     <div>
       <h1>Get start with React-Router 6</h1>
     </div>
+    {/*  */}
     <AuthProvider>
       <Routes>
           <Route path="/" element ={<Layout/>}>
@@ -41,7 +42,7 @@ function App() {
             <Route path="posts/:id" element={<Singlepage/>}/>
             <Route path="posts/:title" element={<Newpage/>}/>
             <Route path="posts/:id/edit" element={<Editpost/>}/>
-            {/* НЕ РАБОТАЕТ! */}
+           {/* Приватный роут */}
             <Route path="posts/new" element={
               <RequireAuth>
                 <Creativepost />
