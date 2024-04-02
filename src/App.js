@@ -36,7 +36,11 @@ function App() {
       <Routes>
           <Route path="/" element ={<Layout/>}>
             <Route index element={<Homepage/>}/>
-            <Route path="about" element={<Aboutpage/>}/>
+            {/* вложенный роут */}
+            <Route path="about" element={<Aboutpage/>}>
+              <Route path='contact' element={<p>Our contact</p>}/>
+              <Route path='team' element={<p>Our team </p>}/>
+            </Route>
             <Route path="about-us" element={<Navigate to="/about" replace/>}/>
             <Route path="posts" element={<Blogpage name={'with props eeeeeeeeeee'} />}/>
             <Route path="posts/:id" element={<Singlepage/>}/>

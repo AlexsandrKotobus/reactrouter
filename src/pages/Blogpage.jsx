@@ -32,6 +32,7 @@ useEffect(() => {
             
             <Link to="/posts/new">Add new post</Link>
             {
+                // + фильтр - проверяет в каждом посту в title есть нужный - includes(postQuery) -  нам поисковый запрос
                 posts.filter(
                     post => post.title.includes(postQuery) && post.id >= startsFrom,
                 ).map(post => (
