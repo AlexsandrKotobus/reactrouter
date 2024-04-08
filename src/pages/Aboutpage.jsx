@@ -1,4 +1,4 @@
-import {Outlet, Link} from 'react-router-dom';
+import {Route, Routes, Outlet, Link} from 'react-router-dom';
 
 const Aboutpage = () => {
     return (
@@ -15,10 +15,10 @@ const Aboutpage = () => {
                  {/* outlet - в каком месте мы хотим разместить вложенный компонент */}
                  <Outlet/>
 
-        {/* <Routes>
-            <Route path='contact' element={<p>Our contact</p>}/>
-            <Route path='team' element={<p>Our team </p>}/>
-        </Routes> */}
+        <Routes>
+            {/* <Route path='contact' element={<p>Our contact</p>}/>
+            <Route path='team' element={<p>Our team </p>}/> */}
+        </Routes>
            
         </div>
         

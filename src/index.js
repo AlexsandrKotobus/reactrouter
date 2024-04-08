@@ -7,13 +7,13 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-  <StrictMode>
+  <React.StrictMode>
+  {/* // <StrictMode> */}
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>
+  {/* // </StrictMode> */}
     
-  // </React.StrictMode>
+  </React.StrictMode>
 );
 

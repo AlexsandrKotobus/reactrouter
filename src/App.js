@@ -35,10 +35,13 @@ function App() {
     <AuthProvider>
       <Routes>
           <Route path="/" element ={<Layout/>}>
+            {/*  все адреса начинаются не со слеша */}
             <Route index element={<Homepage/>}/>
             {/* вложенный роут */}
             <Route path="about" element={<Aboutpage/>}>
-              <Route path='contact' element={<p>Our contact</p>}/>
+              {/* <Route path='contact' element={<p>Our contact</p>}/> */}
+              <Route path='/about/contact' element={<p>Our contact</p>}/>
+              
               <Route path='team' element={<p>Our team </p>}/>
             </Route>
             <Route path="about-us" element={<Navigate to="/about" replace/>}/>

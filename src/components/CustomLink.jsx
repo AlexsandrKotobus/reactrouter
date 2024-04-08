@@ -5,7 +5,8 @@ const CustomLink = ({children, to, ...props}) => {
 const match = useMatch({
     path: to,
     // end: false, 
-    end: to.length ===1, 
+    end: to.length ===1,  //для главной страницу берем вест путь
+    //в противном случае - частичный
 });
 
 
