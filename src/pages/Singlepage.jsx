@@ -1,38 +1,81 @@
-import React, {useState, useEffect} from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Link, useNavigate, useLoaderData, Await, useAsyncValue } from 'react-router-dom';
+// компонент для post.title и post.body - которые придется ждать
+const Post = () => {
+    const post = useAsyncValue()
+    return (
+        <>
+         <h1>{post.title}</h1>
+         <p>{post.body}</p>
+        </>
+    )
+}
+const Comments = ()=> {
+    const comments = useAsyncValue();
+    return (
+        <div>
+            <h2>Comments</h2>
+            {
+                comments.map(comment => (
+                    <>
+                    <h3>{comment.email}</h3>
+                    <h4>{comment.name}</h4>
+                    <p>{comment.body}</p>
+                    </>
+                ))
+            }
+        </div>
+    )
+}
 
 const Singlepage = () => {
-    const {id} = useParams();
+  const {post, id, comments} = useLoaderData()
     const navigate = useNavigate();
-    // console.log(useParams());
-    const [post, setPost] = useState(null);
-    const goBack = () => navigate(-1)
-    // const goBack = () => navigate('/blog', 155)
-    const goHome = () => navigate('/', {replace: true})
 
-    
-    useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-            .then(res => res.json())
-            .then(data => setPost(data))
-    }, [id]);
+    const goHome = () => navigate('/', {replace: true})
     
         return (
             <div>
-                <button onClick={goBack}>Go back</button>
-                {/* bad approach Правильно попасть на конкретную страницу переход по ссылке*/}
                 <button onClick={goHome}>Go home</button>
-               {post && (
-                <>
-                    <h1>{post.title}</h1>
-                    <p>{post.body}</p>
+                {/* тут были post.title и post.body, которые теперь в <Suspense> */}
+                <Suspense fallback={<h2>Post is loading...</h2>}>
+                    <Await resolve={post}>
+                        <Post/>
+                    </Await>
+
+                </Suspense>
+                <Suspense fallback={<h2>Comments is loading...</h2>}>
+                    <Await resolve={comments}>
+                        <Comments/>
+                    </Await>
+
+                </Suspense>
+                    
+                    {/* id мы получим сразу, пожтому эта часть без изменений */}
                     <Link to ={`/posts/${id}/edit`}>Edit this post</Link>
                     <p>(это Singlepage)</p>
-                </>
-               )}
             </div>
         );
     }
+//асинхронная ф-я для постов по id
+async function getPostById(id){
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    return res.json()
+}
+//асинхронная ф-я для комметариев к постам по id
+async function getCommentsById(id){
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}/comments`)
+    return res.json()
+}
+
+    //
+    const postLoader = async({ params}) => {
+        const id = params.id;
+        // post получаем через асинх ф-ю передав в нее id
+        // причем посты нужны сразу (снаружи, не переходя на страницу), 
+        // комментарии - потом, когда страница уже загружена
+        return {post: await getPostById(id), id, comments: getCommentsById(id)}
+    }
 
 
-export default Singlepage;
+export {Singlepage, postLoader};

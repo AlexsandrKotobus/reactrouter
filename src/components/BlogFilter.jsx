@@ -1,8 +1,6 @@
 import {useState} from 'react';
 
 
-
-
 const BlogFilter = ({postQuery, latest, setSearchParams }) => {
 const [search, setSearch] = useState(postQuery); //зависит от postQuery
 const [checked, setChecked] = useState(latest); //зависит от latest

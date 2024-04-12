@@ -15,10 +15,7 @@ const Aboutpage = () => {
                  {/* outlet - в каком месте мы хотим разместить вложенный компонент */}
                  <Outlet/>
 
-        <Routes>
-            {/* <Route path='contact' element={<p>Our contact</p>}/>
-            <Route path='team' element={<p>Our team </p>}/> */}
-        </Routes>
+       
            
         </div>
         

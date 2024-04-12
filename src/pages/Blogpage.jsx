@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
 import React from 'react';
-import {Link, useSearchParams } from 'react-router-dom'
+import {Link, useSearchParams, useLoaderData, defer, Await } from 'react-router-dom'
 import BlogFilter from '../components/BlogFilter';
+import { Suspense } from 'react';
 
-const Blogpage = ({name}) => {
-const [posts, setPosts] = useState([]);
+const Blogpage = () => {
+    //из blogLoader, через App.jsx в параметре loader={blogLoader}
+    //posts делаем объектом
+const {posts} = useLoaderData()
 
 // поиск
 const [searchParams, setSearchParams] = useSearchParams();
@@ -15,34 +17,56 @@ const latest = searchParams.has('latest');
 const startsFrom = latest ? 95 : 1;
 
 
-
-
-
-useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(res => res.json())
-        .then(data => setPosts(data))
-}, []);
-
     return (
         <div>
-            <h1>BLOOOG {name}</h1>
+            <h1>BLOOOG </h1>
             <BlogFilter postQuery = {postQuery}  latest={latest} setSearchParams={setSearchParams}/>
             <h2>Our news</h2>
             
-            <Link to="/posts/new">Add new post</Link>
-            {
-                // + фильтр - проверяет в каждом посту в title есть нужный - includes(postQuery) -  нам поисковый запрос
-                posts.filter(
-                    post => post.title.includes(postQuery) && post.id >= startsFrom,
-                ).map(post => (
-                    <Link key ={post.id} to={`/posts/${post.id}`}>
-                        <li>{post.title}</li>
-                    </Link>
-                ))
-            }
+            <Link to="/posts/new" style={{margin: '1rem', display: 'inline-block'}}>Add new post</Link>
+            {/* так как данных у нас пока нет используем компонент Suspense, Await  */}
+            {/* Suspense- для прелоадера, Await - для самого компонента, который наконец загрузился*/}
+            <Suspense fallback={<h2>Loading...</h2>}>
+                {/*Await c обязательным параметром resolve - чего мы будем дожидаться */}
+                {/* ! лоадер может загружать разные ващи, чтото мы можем не ждать */}
+                {/*Await resolve={posts} означает, что пока не загрузятся посты показывай то, что задали в Suspense fallback={<h2>Loading...</h2>  */}
+                <Await resolve={posts}> 
+                    {(resolovedPosts) => (<>
+                                {
+                                    // + фильтр - проверяет в каждом посту в title есть нужный - includes(postQuery) -  нам поисковый запрос
+                                    resolovedPosts.filter(
+                                        post => post.title.includes(postQuery) && post.id >= startsFrom,
+                                    ).map(post => (
+                                        <Link key ={post.id} to={`/posts/${post.id}`}>
+                                            <li>{post.title}</li>
+                                        </Link>
+                                    ))
+                                //    console.log({posts})
+                                }
+
+                            </>)
+
+                    }
+                    
+                </Await>
+            </Suspense>
+
+           
         </div>
     );
 }
 
-export default Blogpage;
+async function getPosts(){
+     
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    return  res.json()
+}
+
+const blogLoader = async () => {
+   return defer({
+    posts: getPosts()
+   })
+    
+}
+
+export  {Blogpage, blogLoader};
