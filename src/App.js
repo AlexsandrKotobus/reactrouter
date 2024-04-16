@@ -17,6 +17,7 @@ import Layout from "./components/Layout";
 import Newpage from "./pages/Newpage";
 import {RequireAuth} from "./hoc/RequireAuth";
 import { AuthProvider } from "./hoc/AuthProvider";
+import Errorpage from "./pages/Errorpage";
 
 // создадим роутер - это объект, 
 //внутри хелпера createBrowserRouter описываем объект или 
@@ -34,7 +35,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     </Route>
     <Route path="about-us" element={<Navigate to="/about" replace/>}/>
     {/* +loader */}
-    <Route path="posts" element={<Blogpage/> } loader={blogLoader}/>
+    <Route path="posts" element={<Blogpage/> } loader={blogLoader} errorElement={<Errorpage/>}/>
     <Route path="posts/:id" element={<Singlepage/>} loader={postLoader}/>
     <Route path="posts/:title" element={<Newpage/>}/>
     <Route path="posts/:id/edit" element={<Editpost/>}/>

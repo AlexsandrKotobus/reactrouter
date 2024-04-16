@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useSearchParams, useLoaderData, defer, Await } from 'react-router-dom'
+import {Link, useSearchParams, useLoaderData, json, Await } from 'react-router-dom'
 import BlogFilter from '../components/BlogFilter';
 import { Suspense } from 'react';
 
@@ -57,14 +57,24 @@ const startsFrom = latest ? 95 : 1;
 }
 
 async function getPosts(){
-     
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    // Ошибка !!!
+    //  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const res = await fetch('https://jsonplaceholder.typicode.com/postsss')
+    // тут был код ошибки - на уровне загрузки
+    // if(!res.ok){
+    //     throw new Response('',{ststus: res.status, statusText: 'Not found'} )
+    // }
     return  res.json()
 }
 
 const blogLoader = async () => {
-   return defer({
-    posts: getPosts()
+    // проверка ошибки на уровне лоадера
+    const posts = getPosts()
+    if(!posts.length){
+        throw json({message: 'Not found', reason: "Wrong URL"}, {status: 404})
+    }
+   return ({
+    posts
    })
     
 }

@@ -12,16 +12,19 @@ const Post = () => {
 }
 const Comments = ()=> {
     const comments = useAsyncValue();
+    
     return (
         <div>
             <h2>Comments</h2>
+           
             {
                 comments.map(comment => (
-                    <>
-                    <h3>{comment.email}</h3>
-                    <h4>{comment.name}</h4>
-                    <p>{comment.body}</p>
-                    </>
+                    //я добавила ключ
+                    <div key ={comment.id}>
+                        <h3>{comment.email}</h3>
+                        <h4>{comment.name}</h4>
+                        <p>{comment.body}</p>
+                    </div>
                 ))
             }
         </div>
@@ -51,7 +54,7 @@ const Singlepage = () => {
 
                 </Suspense>
                     
-                    {/* id мы получим сразу, пожтому эта часть без изменений */}
+                    {/* id мы получим сразу, поэтому эта часть без изменений */}
                     <Link to ={`/posts/${id}/edit`}>Edit this post</Link>
                     <p>(это Singlepage)</p>
             </div>
