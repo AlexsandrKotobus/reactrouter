@@ -59,20 +59,24 @@ const startsFrom = latest ? 95 : 1;
 async function getPosts(){
     // Ошибка !!!
     //  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
-    const res = await fetch('https://jsonplaceholder.typicode.com/postsss')
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
     // тут был код ошибки - на уровне загрузки
     // if(!res.ok){
-    //     throw new Response('',{ststus: res.status, statusText: 'Not found'} )
+    //     перед response обязательно дб new - Мы создаем новую ошибку
+    //     throw new Response('',{status: res.status, statusText: 'Not found'} )
     // }
+    
     return  res.json()
 }
 
 const blogLoader = async () => {
     // проверка ошибки на уровне лоадера
     const posts = getPosts()
-    if(!posts.length){
-        throw json({message: 'Not found', reason: "Wrong URL"}, {status: 404})
-    }
+    console.log('posts ', posts.length)
+    // эту проверку мы создали для вывода ошибки
+    // if(!posts.length){
+    //     throw json({message: 'Not found', reason: "Wrong URL"}, {status: 404})
+    // }
    return ({
     posts
    })
